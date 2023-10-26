@@ -6,9 +6,9 @@ import "./main.global.css";
 import { FormAddItem } from './components/FormAddItem';
 
 const itemsContainer = [
-  {text: 'Помыть посуду', id: "12"},
-  {text: 'Убраться в комнате', id: "15"},
-  {text: 'Почистить зубы', id: "25"},
+  {text: 'Помыть посуду', id: "12", isDone: false},
+  {text: 'Убраться в комнате', id: "15", isDone: false},
+  {text: 'Почистить зубы', id: "25", isDone: false},
 ]
 
 
@@ -23,14 +23,19 @@ function App() {
     setItemsList(itemsList.filter(item => item.id !== id));
   }
 
+  const handleDone = (id: string) => {
+    console.log(id);
+    setItemsList(itemsList.map((item) => item.id === id ? {...item, isDone: !item.isDone} : item));
+  }
+
   const addItem = (text: string) => {
-    setItemsList(itemsList.concat({text: text, id: generateId()}))
+    setItemsList(itemsList.concat({text: text, id: generateId(), isDone: false}))
   }
  
   return (
     <Layout>
       <FormAddItem addItem={addItem}/>
-      <ListItems list={itemsList} onDeleteItem={handleDelete}/>
+      <ListItems list={itemsList} onDoneItem={handleDone} onDeleteItem={handleDelete}/>
     </Layout>
   )
 }

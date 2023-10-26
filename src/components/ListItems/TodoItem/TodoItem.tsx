@@ -1,19 +1,21 @@
-import React from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 import styles from './todoitem.css';
 
 interface ITodoItemProps {
   text: string,
-  onDelete: () => void
+  isDone: boolean,
+  onDelete: () => void,
+  onDone: () => void,
 }
 
 const NOOP = () => {
 
 }
 
-export function TodoItem({ text, onDelete = NOOP }: ITodoItemProps) {
+export function TodoItem({ text, isDone, onDone = NOOP, onDelete = NOOP }: ITodoItemProps) {
   return (
-    <li>
-      <input style={{background: "transparent", border: "0"}} type="text" value={text} disabled/>
+    <li style={{display: "flex", cursor: "pointer"}}>
+      <div onClick={onDone} style={isDone ? {textDecoration: "line-through"} : {textDecoration: "none"}} className={styles.inputAdd}>{text}</div>
       <button onClick={onDelete}>Удалить</button>
     </li>
   );
