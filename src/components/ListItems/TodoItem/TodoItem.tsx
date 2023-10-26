@@ -2,11 +2,16 @@ import React from 'react';
 import styles from './todoitem.css';
 
 interface ITodoItem {
-  text: string
+  text: string,
+  onDelete: () => void
 }
 
-export function TodoItem({ text }: ITodoItem) {
+const NOOP = () => {
+
+}
+
+export function TodoItem({ text, onDelete = NOOP }: ITodoItem) {
   return (
-    <li>{text}</li>
+    <li onClick={onDelete}>{text}</li>
   );
 }
