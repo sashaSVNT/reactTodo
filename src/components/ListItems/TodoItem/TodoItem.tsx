@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './todoitem.css';
 
-interface ITodoItem {
+interface ITodoItemProps {
   text: string,
   onDelete: () => void
 }
@@ -10,8 +10,11 @@ const NOOP = () => {
 
 }
 
-export function TodoItem({ text, onDelete = NOOP }: ITodoItem) {
+export function TodoItem({ text, onDelete = NOOP }: ITodoItemProps) {
   return (
-    <li onClick={onDelete}>{text}</li>
+    <li>
+      <input style={{background: "transparent", border: "0"}} type="text" value={text} disabled/>
+      <button onClick={onDelete}>Удалить</button>
+    </li>
   );
 }

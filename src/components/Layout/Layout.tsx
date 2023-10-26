@@ -7,7 +7,7 @@ interface ILayoutProps {
 
 export function Layout({ children }: ILayoutProps) {
   return (
-    <div className="wrapper">
+    <div className={styles.wrapper}>
       {children}
     </div>
   );
