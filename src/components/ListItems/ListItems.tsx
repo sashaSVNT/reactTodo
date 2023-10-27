@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from './listitems.css';
 import { TodoItem } from './TodoItem';
+import { List } from 'antd';
 
 interface IItem {
   text: string,
@@ -14,17 +14,34 @@ interface IListItemsProps {
   onDoneItem: (id: string) => void
 }
 
+// export function ListItems({ list, onDeleteItem, onDoneItem }: IListItemsProps) {
+//   return (
+//     <ul className="listContainer">
+//       {list.map(({ text, id, isDone }) => <TodoItem 
+//         key={id} 
+//         text={text} 
+//         isDone={isDone} 
+//         onDone={() => onDoneItem(id)} 
+//         onDelete={() => onDeleteItem(id)}
+//         />)
+//       }
+//     </ul>
+//   );
+// }
+
 export function ListItems({ list, onDeleteItem, onDoneItem }: IListItemsProps) {
   return (
-    <ul className="listContainer">
-      {list.map(({ text, id, isDone }) => <TodoItem 
-        key={id} 
-        text={text} 
-        isDone={isDone} 
-        onDone={() => onDoneItem(id)} 
-        onDelete={() => onDeleteItem(id)}
-        />)
+    <List
+      bordered
+      dataSource={list}
+      renderItem={({ text, id, isDone }) => 
+        <TodoItem 
+          key={id} 
+          text={text} 
+          isDone={isDone} 
+          onDone={() => onDoneItem(id)} 
+          onDelete={() => onDeleteItem(id)}/>
       }
-    </ul>
+    />
   );
 }

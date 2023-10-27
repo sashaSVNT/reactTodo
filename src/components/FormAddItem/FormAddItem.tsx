@@ -1,5 +1,5 @@
-import React, { SyntheticEvent, useRef } from 'react';
-import styles from './formadditem.css';
+import { Button, Flex, Form, Input } from 'antd';
+import React, { SyntheticEvent, useRef, useState } from 'react';
 
 interface IFormAddItemProps {
   addItem: (text: string) => void
@@ -10,24 +10,28 @@ const NOOP = () => {
 }
 
 export function FormAddItem({ addItem = NOOP }: IFormAddItemProps) {
+  const [value, setValue] = useState('');
+  const [form] = Form.useForm();
 
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const handleSubmit = (e: SyntheticEvent) => {
-    e.preventDefault();
-    if(inputRef.current && inputRef.current.value) {
-      addItem(inputRef.current.value);
-      inputRef.current.value = '';
+  const handleSubmit = () => {
+    if(value.length > 6) {
+      addItem(value);
+      setValue('');
     }
   }
-
   return (
-    <>
-      <h1 style={{margin: "20px 0"}}>Введите дело</h1>
-      <form style={{display: "flex"}} onSubmit={handleSubmit}>
-        <input type="text" ref={inputRef} />
-        <button>Add</button>
-      </form>
-    </>
+    <Form 
+      form={form} 
+      style={{display: "flex"}} 
+      layout="horizontal" 
+      onFinish={handleSubmit}
+    >
+      <Form.Item style={{width: "100%"}} label="Add ToDo" rules={[{ required: true }]}>
+        <Input value={value} onChange={(e) => setValue(e.target.value)}/>
+      </Form.Item>
+      <Form.Item>
+        <Button>Submit</Button>
+      </Form.Item>
+    </Form>
   );
 }
