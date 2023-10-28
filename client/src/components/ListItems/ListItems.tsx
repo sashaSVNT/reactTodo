@@ -3,8 +3,8 @@ import { TodoItem } from './TodoItem';
 import { List } from 'antd';
 
 interface IItem {
-  text: string,
-  id: string,
+  item: string,
+  _id: string,
   isDone: boolean
 }
 
@@ -14,33 +14,19 @@ interface IListItemsProps {
   onDoneItem: (id: string) => void
 }
 
-// export function ListItems({ list, onDeleteItem, onDoneItem }: IListItemsProps) {
-//   return (
-//     <ul className="listContainer">
-//       {list.map(({ text, id, isDone }) => <TodoItem 
-//         key={id} 
-//         text={text} 
-//         isDone={isDone} 
-//         onDone={() => onDoneItem(id)} 
-//         onDelete={() => onDeleteItem(id)}
-//         />)
-//       }
-//     </ul>
-//   );
-// }
-
 export function ListItems({ list, onDeleteItem, onDoneItem }: IListItemsProps) {
   return (
     <List
       bordered
       dataSource={list}
-      renderItem={({ text, id, isDone }) => 
+      renderItem={({ item: text, _id: id, isDone }) => 
         <TodoItem 
           key={id} 
           text={text} 
-          isDone={isDone} 
+          onDelete={() => onDeleteItem(id)}
+          isDone={isDone}
           onDone={() => onDoneItem(id)} 
-          onDelete={() => onDeleteItem(id)}/>
+        />
       }
     />
   );

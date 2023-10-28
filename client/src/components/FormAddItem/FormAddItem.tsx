@@ -14,7 +14,7 @@ export function FormAddItem({ addItem = NOOP }: IFormAddItemProps) {
   const [form] = Form.useForm();
 
   const handleSubmit = () => {
-    if(value.length > 6) {
+    if(value.length > 0) {
       addItem(value);
       setValue('');
     }
@@ -26,8 +26,8 @@ export function FormAddItem({ addItem = NOOP }: IFormAddItemProps) {
       layout="horizontal" 
       onFinish={handleSubmit}
     >
-      <Form.Item style={{width: "100%"}} label="Add ToDo" rules={[{ required: true }]}>
-        <Input value={value} onChange={(e) => setValue(e.target.value)}/>
+      <Form.Item style={{width: "100%"}} rules={[{ required: true }]}>
+        <Input placeholder='Enter your to do' value={value} onChange={(e) => setValue(e.target.value)}/>
       </Form.Item>
       <Form.Item>
         <Button>Submit</Button>

@@ -5,11 +5,12 @@ const todoItemsModel = require('../models/todoItems');
 router.post('/api/item', async (req, res) => {
   try {
     const newItem = new todoItemsModel({
-      item: req.body.item
+      item: req.body.item,
+      isDone: req.body.isDone
     })
 
     const saveItem = await newItem.save()
-    res.status(200).json("Item added succesfully")
+    res.status(200).json(saveItem)
   } catch (err) {
     res.json(err);
   }
