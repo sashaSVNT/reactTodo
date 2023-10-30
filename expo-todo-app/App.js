@@ -6,13 +6,6 @@ import axios from 'axios';
 import { ListItems } from './src/components/ListItems/ListItems';
 import { FormAddItem } from './src/components/FormAddItem/FormAddItem';
 
-// const list = [
-//   { item: 'lqelwqlqw', _id: '14225324', isDone: false },
-//   { item: 'lqe123lwqlqw', _id: '142342312', isDone: false },
-//   { item: '43243123', _id: '142421', isDone: false }
-// ]
-
-
 export default function App() {
   const [itemsList, setItemsList] = useState([]);
   useEffect(() => {
@@ -26,19 +19,57 @@ export default function App() {
     }
     getItemsList();
   }, [])
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
+    try {
+      const res = await axios.delete(`http://10.0.2.2:5500/api/item/${id}`);
+    } catch (err) {
+      console.log(err);
+    }
     setItemsList(itemsList.filter((item) => item._id !== id));
   }
-  const addItem = (itemText) => {
-    setItemsList(itemsList.concat({ item: itemText, _id: 'WDDasdw', isDone: false }))
+
+  const handleUpdate = async (item, id) => {
+    try {
+      const currenItem = itemsList.filter((item) => item._id === id)[0];
+      const res = await axios.put(`http://localhost:5500/api/item/${id}`, {
+        item: item,
+        isDone: currenItem.isDone
+      });
+    } catch (err) {
+      console.log(err);
+    }
+    setItemsList(itemsList.map((elem) => elem._id === id ? { ...elem, item: item } : elem));
   }
-  const handleDone = (id) => {
+
+  const addItem = async (itemText) => {
+    try {
+      const res = await axios.post('http://10.0.2.2:5500/api/item', {
+        item: itemText,
+        isDone: false
+      });
+      setItemsList(itemsList.concat(res.data))
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  const handleDone = async (id) => {
+    try {
+      const currenItem = itemsList.filter((item) => item._id === id)[0];
+      const res = await axios.put(`http://10.0.2.2:5500/api/item/${id}`, {
+        item: currenItem.item,
+        isDone: !currenItem.isDone
+      });
+    } catch (err) {
+      console.log(err);
+    }
     setItemsList(itemsList.map((item) => item._id === id ? { ...item, isDone: !item.isDone } : item));
   }
+
   return (
     <View style={styles.main}>
       <FormAddItem addItem={addItem} />
-      <ListItems list={itemsList} onDeleteItem={handleDelete} onDoneItem={handleDone} />
+      <ListItems list={itemsList} onDeleteItem={handleDelete} onDoneItem={handleDone} onUpdateItem={handleUpdate} />
     </View>
   );
 }
