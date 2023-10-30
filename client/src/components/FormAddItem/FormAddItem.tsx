@@ -27,7 +27,7 @@ export function FormAddItem({ addItem = NOOP }: IFormAddItemProps) {
       onFinish={handleSubmit}
     >
       <Form.Item style={{width: "100%"}} rules={[{ required: true }]}>
-        <Input placeholder='Enter your to do' value={value} onChange={(e) => setValue(e.target.value)}/>
+        <Input placeholder='Create new task' value={value} onChange={(e) => setValue(e.target.value)}/>
       </Form.Item>
       <Form.Item>
         <Button>Submit</Button>

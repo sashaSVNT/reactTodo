@@ -36,6 +36,19 @@ export default function App() {
     setItemsList(itemsList.filter((item) => item._id !== id));
   }
 
+  const handleUpdate = async (item: string, id: string) => {
+    try {
+      const currenItem = itemsList.filter((item) => item._id === id)[0];
+      const res = await axios.put(`http://localhost:5500/api/item/${id}`, {
+        item: item,
+        isDone: currenItem.isDone
+      });
+    }catch(err) {
+      console.log(err);
+    }
+    setItemsList(itemsList.map((elem) => elem._id === id ? {...elem, item: item} : elem));
+  } 
+
   const handleDone = async (id: string) => {
     try {
       const currenItem = itemsList.filter((item) => item._id === id)[0];
@@ -63,14 +76,14 @@ export default function App() {
 
   return (
     <Layout style={{
-      minHeight: "100vh"
+      minHeight: "100vh",
     }}>
       <Content style={{
         width: "30%",
         margin: "100px auto 0",
       }}>
         <FormAddItem addItem={addItem}/>
-        <ListItems list={itemsList} onDoneItem={handleDone} onDeleteItem={handleDelete}/>
+        <ListItems list={itemsList} onDoneItem={handleDone} onDeleteItem={handleDelete} onUpdateItem={handleUpdate}/>
       </Content>
     </Layout>
   );

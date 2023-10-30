@@ -11,10 +11,11 @@ interface IItem {
 interface IListItemsProps {
   list: IItem[],
   onDeleteItem: (id: string) => void,
-  onDoneItem: (id: string) => void
+  onDoneItem: (id: string) => void,
+  onUpdateItem: (text: string, id: string) => void
 }
 
-export function ListItems({ list, onDeleteItem, onDoneItem }: IListItemsProps) {
+export function ListItems({ list, onDeleteItem, onDoneItem, onUpdateItem }: IListItemsProps) {
   return (
     <List
       bordered
@@ -26,6 +27,7 @@ export function ListItems({ list, onDeleteItem, onDoneItem }: IListItemsProps) {
           onDelete={() => onDeleteItem(id)}
           isDone={isDone}
           onDone={() => onDoneItem(id)} 
+          onUpdate={(text) => onUpdateItem(text, id)}
         />
       }
     />
